@@ -42,7 +42,7 @@ public class ParserConfiguration {
     // Should we display extra debug information while parsing?
     private boolean isDebug = false;
 
-    private CompatVersion version = CompatVersion.RUBY1_8;
+    private CompatVersion version = CompatVersion.RUBY2_3;
     
     // This scope is sent replaces the root scope.  The common scenario for this is
     // having the parser accurately parse in an eval() context where local variables

@@ -199,9 +199,6 @@ public class Ruby23Parser implements RubyParser {
 %token <Node> tNTH_REF tBACK_REF tSTRING_CONTENT tINTEGER
 %token <FloatNode> tFLOAT 
 %token <RegexpNode>  tREGEXP_END
-%token <Node> tIMAGINARY
-%token <RationalNode> tRATIONAL
-%token <Node> tSTRING
 
 %type <RestArgNode> f_rest_arg 
 %type <Node> singleton strings string string1 xstring regexp
@@ -247,21 +244,12 @@ public class Ruby23Parser implements RubyParser {
 %type <Node> opt_call_args f_marg f_margs
 %type <Node> bvar
 %type <Token> user_variable, keyword_variable
-%type <Token> call_op
-%token <Token> tANDDOT       /* &. */
    // ENEBO: end all new types
 
-
-
 %type <Token> rparen rbracket reswords f_bad_arg
-%type <Node> top_compstmt top_stmts top_stmt
-%token <Token> tSYMBOLS_BEG
-%token <Token> tQSYMBOLS_BEG
-%token <Token> tDSTAR
-%type <Token> kwrest_mark, f_kwrest
-%type <Token> f_label
-%type <FCallNode> fcall
-%token <String> tLABEL_END, tSTRING_DEND
+// keep old tokens to preserve the ids
+%token <Token> tCOMMENT tWHITESPACE tDOCUMENTATION
+
 
 /*
  *    precedence table
@@ -291,7 +279,27 @@ public class Ruby23Parser implements RubyParser {
 %right tPOW
 %right tBANG tTILDE tUPLUS
 
+%token <Node> tIMAGINARY
+%token <RationalNode> tRATIONAL 
+
+%type <Token> rparen rbracket reswords f_bad_arg
+%type <Node> top_compstmt top_stmts top_stmt
+%token <Token> tSYMBOLS_BEG
+%token <Token> tQSYMBOLS_BEG
+%token <Token> tDSTAR
+%type <Token> kwrest_mark, f_kwrest
+%type <Token> f_label
+%type <FCallNode> fcall
+%token <String> tLABEL_END, tSTRING_DEND
+
+%type <Token> call_op
+%token <Token> tANDDOT       /* &. */
+%token <Node> tSTRING
+
    //%token <Integer> tLAST_TOKEN
+
+
+
 
 %%
 program       : {

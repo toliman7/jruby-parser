@@ -6,12 +6,12 @@
             <url>src/org/jrubyparser/parser/Ruby23Parser.y</url>
             <bookmark id="1">
                 <name/>
-                <line>781</line>
+                <line>789</line>
                 <key/>
             </bookmark>
             <bookmark id="2">
                 <name/>
-                <line>2231</line>
+                <line>2239</line>
                 <key/>
             </bookmark>
         </file>
@@ -37,5 +37,6 @@
             <file>file:/Users/daniel/Projects/Java/jruby-parser/src/org/jrubyparser/ast/Node.java</file>
             <file>file:/Users/daniel/Projects/Java/jruby-parser/src/org/jrubyparser/parser/Ruby20Parser.y</file>
         </group>
+        <group name="Ruby"/>
     </open-files>
 </project-private>

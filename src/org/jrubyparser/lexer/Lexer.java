@@ -77,7 +77,6 @@ public class Lexer {
     private static String BEGIN_DOC_MARKER = "begin";
     private static String END_DOC_MARKER = "end";
     private static HashMap<String, Keyword> map;
-    
     static {
         map = new HashMap<String, Keyword>();
         
@@ -441,6 +440,7 @@ public class Lexer {
     // Are we lexing Ruby 1.8 or 1.9+ syntax
     private boolean isOneEight;
     private boolean isTwoZero;
+    private String version = "2.3";
     // Count of nested parentheses (1.9 only)
     private int parenNest = 0;
     // 1.9 only
@@ -529,12 +529,13 @@ public class Lexer {
     }
 
     public Lexer() {
-    	this(true);
+    	this("1.8");
     }
     
-    public Lexer(boolean isOneEight) {
-    	reset();
-        this.isOneEight = isOneEight;
+    public Lexer(String version) {
+        reset();
+        this.isOneEight = version.startsWith("1.8");
+        this.isTwoZero = version.startsWith("2.");
     }
     
     public void reset() {
@@ -545,7 +546,6 @@ public class Lexer {
         resetStacks();
         lex_strterm = null;
         commandStart = true;
-        if (parserSupport != null) isTwoZero = parserSupport.getConfiguration().getVersion().is2_0();
     }
     
     /**
@@ -852,7 +852,7 @@ public class Lexer {
 
         default:
             throw new SyntaxException(PID.STRING_UNKNOWN_TYPE, getPosition(), getCurrentLine(),
-                    "Unknown type of %string. Expected 'Q', 'q', 'w', 'x', 'r' or any non letter character, but found '" + c + "'.");
+                    "Unknown type of %string. Expected 'Q', 'q', 'w', 'x', 'r', 'i', 'I', 's' or any non letter character, but found '" + c + "'.");
         }
     }
     
@@ -1263,13 +1263,16 @@ public class Lexer {
         if (lex_strterm != null) {
             try {
                 int tok = lex_strterm.parseString(this, src);
-                if (tok == Tokens.tSTRING_END || tok == Tokens.tREGEXP_END || tok == Tokens.tLABEL_END) {
+                if (tok == Tokens.tSTRING_END || tok == Tokens.tREGEXP_END) {
                     lex_strterm = null;
                     setState(LexState.EXPR_END);
 
                     if (heredocContext != null && heredocContext.isLookingForEnd()) {
                         heredocContext = heredocContext.pop();
                     }
+                } else if (tok == Tokens.tLABEL_END) {
+                  lex_strterm = null;
+                  setState(LexState.EXPR_BEG);
                 }
                 return tok;
             } catch (SyntaxException se) {

@@ -128,7 +128,7 @@ public class Ruby19Parser implements RubyParser {
 
     public Ruby19Parser(ParserSupport19 support) {
         this.support = support;
-        lexer = new Lexer(false);
+        lexer = new Lexer("1.9");
         lexer.setParserSupport(support);
         support.setLexer(lexer);
     }

@@ -199,8 +199,7 @@ public class Ruby20Parser implements RubyParser {
 %token <Node> tNTH_REF tBACK_REF tSTRING_CONTENT tINTEGER
 %token <FloatNode> tFLOAT 
 %token <RegexpNode>  tREGEXP_END
-%token <Node> tIMAGINARY
-%token <RationalNode> tRATIONAL 
+
 %type <RestArgNode> f_rest_arg 
 %type <Node> singleton strings string string1 xstring regexp
 %type <Node> string_contents xstring_contents string_content method_call
@@ -248,14 +247,8 @@ public class Ruby20Parser implements RubyParser {
    // ENEBO: end all new types
 
 %type <Token> rparen rbracket reswords f_bad_arg
-%type <Node> top_compstmt top_stmts top_stmt
-%token <Token> tSYMBOLS_BEG
-%token <Token> tQSYMBOLS_BEG
-%token <Token> tDSTAR
-%type <Token> kwrest_mark, f_kwrest
-%type <Token> f_label
-%type <FCallNode> fcall
-%token <String> tLABEL_END, tSTRING_DEND
+// keep old tokens to preserve the ids
+%token <Token> tCOMMENT tWHITESPACE tDOCUMENTATION
 
 /*
  *    precedence table
@@ -285,7 +278,20 @@ public class Ruby20Parser implements RubyParser {
 %right tPOW
 %right tBANG tTILDE tUPLUS
 
+%token <Node> tIMAGINARY
+%token <RationalNode> tRATIONAL 
+
+%type <Node> top_compstmt top_stmts top_stmt
+%token <Token> tSYMBOLS_BEG
+%token <Token> tQSYMBOLS_BEG
+%token <Token> tDSTAR
+%type <Token> kwrest_mark, f_kwrest
+%type <Token> f_label
+%type <FCallNode> fcall
+%token <String> tLABEL_END, tSTRING_DEND
+
    //%token <Integer> tLAST_TOKEN
+
 
 %%
 program       : {
